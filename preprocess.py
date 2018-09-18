@@ -36,5 +36,5 @@ def transform_features(df):
 def create_x_set(df):
     df.drop(['Name','Ticket','Fare','Cabin','Embarked','Title'], axis=1, inplace=True)
     X_df=df[['Pclass','Age','Sex','SibSp','Parch', 'Block']]
-    X_df=pd.concat([X_df.drop(['Pclass','Sex','Block', 'Age'], axis=1), pd.get_dummies(X_df[['Pclass','Sex', 'Block','Age']], drop_first=True)],axis=1)
+    X_df=pd.concat([X_df.drop(['Pclass','Sex','Block', 'Age'], axis=1), pd.get_dummies(X_df[['Sex', 'Block','Age']], drop_first=True), pd.get_dummies(X_df['Pclass'].astype(str), drop_first=True)],axis=1)
     return(X_df)

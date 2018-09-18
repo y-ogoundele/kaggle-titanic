@@ -1,11 +1,7 @@
 import pandas as pd
 import numpy as np
-import math
-import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, train_test_split
 
 train_df=pd.read_csv('titanic_data/train.csv', encoding='latin-1')
 test_df=pd.read_csv('titanic_data/test.csv', encoding='latin-1')
@@ -34,8 +30,13 @@ X_train_df=train_df[['Pclass','Age','Sex','SibSp','Parch', 'Block']]
 X_train_df=pd.concat([X_train_df.drop(['Pclass','Sex','Block'], axis=1), pd.get_dummies(X_train_df[['Pclass','Sex', 'Block']].astype(str), drop_first=True)],axis=1)
 Y_train_df=train_df['Survived']
 
-#training logistic regression model
+#splitting training set in two to evaluate accuracy of the logistic regression model
 LogReg=LogisticRegression()
+x_train,x_test, y_train, y_test=train_test_split(X_train_df, Y_train_df, test_size=0.3)
+LogReg.fit(x_train,y_train)
+LogReg.score(x_test,y_test)
+
+#training logistic regression model
 LogReg.fit(X_train_df, Y_train_df)
 
 #pre-processing test set
